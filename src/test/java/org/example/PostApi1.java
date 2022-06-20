@@ -12,11 +12,6 @@ import java.util.Properties;
 
 import static io.restassured.RestAssured.given;
 public class PostApi1 extends Payload {
-static String id;
-static String id1;
-    static String token;
-   static String Cnote = "" + (long) (Math.random() * 100000 + 3333300000L);
-   static String Cnotebarcode= "" + (long) (Math.random() * 100000 + 3333300000L);
 
 
 
@@ -24,8 +19,7 @@ static String id1;
     @Test ()
     public void bearerToken() {
         // test = extent.createTest("bearerToken");
-        RestAssured op = new RestAssured();
-        op.baseURI = "https://login.stg.rivigo.com";
+        RestAssured.baseURI = "https://login.stg.rivigo.com";
 
       String tok_res =   given().header("Content-Type", "application/x-www-form-urlencoded")
               .formParam("client_id","sso")
@@ -60,7 +54,7 @@ System.out.println(AccessToken);
 
 // From_Address
     String res_FromAddress = given().header("Authorization", AccessToken).header("Content-Type", "application/json;charset=UTF-8")
-            .body("{\n" +
+            .body(bodyFromAddress())/*("{\n" +
                     "   \"id\":null,\n" +
                     "   \"client\":{\n" +
                     "      \"id\":1519\n" +
@@ -80,6 +74,7 @@ System.out.println(AccessToken);
                     "   \"status\":\"ACTIVE\",\n" +
                     "   \"organizationId\":null\n" +
                     "}")
+                    */
             .when().post("backend/master/client_address")
             .then().assertThat().statusCode(200).log().all().extract().response().asString();
 
@@ -129,8 +124,8 @@ System.out.println(AccessToken);
         System.out.println(p.getProperty("env"));
         String baseUri = p.getProperty("env");
 
-        RestAssured ra = new RestAssured();
-        ra.baseURI = baseUri;
+        RestAssured ra = new  RestAssured();
+        RestAssured.baseURI = baseUri;
         String AccessToken = "Bearer " + token;
 
 
